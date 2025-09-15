@@ -1,12 +1,11 @@
+# learning management system
 
 
-#learning management system
+class Submission:
 
-
-class Submission():
-
-    def __init__(self, quizName, quizModule, quizScore,
-                 studentId, studentName, submissionDate):
+    def __init__(
+        self, quizName, quizModule, quizScore, studentId, studentName, submissionDate
+    ):
         self.quizName = quizName
         self.quizModule = quizModule
         self.quizScore = quizScore
@@ -15,94 +14,110 @@ class Submission():
         self.submissionDate = submissionDate
 
 
-
-kendrick = Submission("quiz1", "module1", 100, 123, "Kendrick","9/15" )
-john = Submission("quiz2", "module1", 80, 123, "John","9/15" )
-mary = Submission("quiz1", "module2", 90, 123, "Mary","9/14" )
-henry = Submission("quiz3", "module1", 85, 123, "Henry","9/12" )
-karen = Submission("quiz2", "module1", 95, 123, "Karen","9/13" )
-
-submission_list = [kendrick, john, mary, henry, karen]
-
-
+submission_list = [
+    Submission("quiz1", "algebra", 100, 123, "Kendrick", "9/15"),
+    Submission("quiz2", "algebra", 80, 300, "John", "9/15"),
+    Submission("quiz1", "physics", 90, 129, "Mary", "9/14"),
+    Submission("quiz3", "algebra", 85, 220, "Henry", "9/12"),
+    Submission("quiz2", "calculus", 95, 290, "Karen", "9/13"),
+    Submission("quiz2", "algebra", 100, 123, "Kendrick", "9/12"),
+]
 
 
+def filter_by_date(submissionDate, submissionList):
+    """Filters submissions by specified date
 
-def filter_by_date(submissionDate, submission_list):
-    """
+    Parameters: submissionDate(string), submissionList (list of submission objects)
 
-    Parameters: Date, List of objects
-
-    Returns: list of objects with submissionDate
-             equal to parameter date //or empty list
+    Returns: date_list(list of objects with specified submissionDate)
 
     """
     date_list = []
-    for date in submission_list:
+    for date in submissionList:
         if date.submissionDate == submissionDate:
-            date_list += date
+            date_list.append(date)
 
     return date_list
-        
 
 
+def filter_by_student_id(studentId, submissionList):
+    """Filters submissions by specified student Id
 
-def filter_by_student_id(studentId, submission_list):
-    """
+    Parameters: StudentId(int), submissionList(list of submission objects)
 
-    Parameters: StudentID, list of objects
-
-    Returns: list of objects with matching student ID
+    Returns: id_list(list of objects with matching student ID)
 
 
     """
     id_list = []
-    for id in submission_list:
+    for id in submissionList:
         if id.studentId == studentId:
-            id_list += id
-    
+            id_list.append(id)
+
     return id_list
 
 
+def find_unsubmitted(submissionDate, nameList, submissionList):
+    """Finds names of students who didnt submit on a specified day
 
-#find_unsubmitted():
-"""
+    Parameters: submissionDate(string), nameList(list of student names),
+                submissionList(list of submission objects)
 
-Parameters: Date, list of student names, 
-            list of submission objects
-
-Returns: list of names of student that have
+    Returns: list of names of student that have
          not completed any quiz on that date
 
-"""
+    """
+    unsubmitted_list = []
+
+    for name in submissionList:
+        if name.studentName in nameList:
+            if name.submissionDate != submissionDate:
+                if name.studentName not in unsubmitted_list:
+                    unsubmitted_list.append(name.studentName)
+            else:
+                if name.studentName in unsubmitted_list:
+                    unsubmitted_list.remove(name.studentName)
+
+    return unsubmitted_list
 
 
+def get_average_score(submission_list):
+    """Returns average score of the list of submissions
 
-#get_average_score():
-"""
+    Parameters: submission_list(list of submission objects)
 
-Parameters: list of submission objects
+    Returns: (float) average of all quiz scores
 
-Returns: (float) average of all quiz scores
+    """
+    total = 0
+    for scores in submission_list:
+        total += scores.quizScore
 
-"""
-
-
-
-#get_average_score_by_module():
-"""
-
-Parameters: list of submission objects
-
-Returns:  an object 
+    return format(total / len(submission_list), ".1f")
 
 
+def get_average_score_by_module(submission_list):
+    """Gets average score of submissions by module name
 
-"""
+    Parameters: submissions_list(list of submission objects)
+
+    Returns:  module_dict (dictionary of module names with
+            corresponding average score)
+
+    """
+    module_dict = {}
+
+    for module in submission_list:
+        if module.quizModule not in module_dict:
+            module_list = []
+            for match in submission_list:
+                if match.quizModule == module.quizModule:
+                    module_list.append(match)
+            module_dict[module.quizModule] = get_average_score(module_list)
+
+    return module_dict
 
 
-
-
-
-
-
+# get_average_score(submission_list)
+print(get_average_score_by_module(submission_list))
+print((filter_by_student_id(123, submission_list)))
