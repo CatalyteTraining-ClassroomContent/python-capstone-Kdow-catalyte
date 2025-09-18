@@ -116,8 +116,3 @@ def get_average_score_by_module(submission_list):
             module_dict[module.quizModule] = get_average_score(module_list)
 
     return module_dict
-
-
-# get_average_score(submission_list)
-print(get_average_score_by_module(submission_list))
-print((filter_by_student_id(123, submission_list)))
