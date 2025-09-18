@@ -24,7 +24,7 @@ submission_list = [
 ]
 
 
-def filter_by_date(submissionDate, submissionList):
+def filter_by_date(submissionDate: str, submissionList):
     """Filters submissions by specified date
 
     Parameters: submissionDate(string), submissionList (list of submission objects)
@@ -40,7 +40,7 @@ def filter_by_date(submissionDate, submissionList):
     return date_list
 
 
-def filter_by_student_id(studentId, submissionList):
+def filter_by_student_id(studentId: int, submissionList):
     """Filters submissions by specified student Id
 
     Parameters: StudentId(int), submissionList(list of submission objects)
@@ -90,7 +90,7 @@ def get_average_score(submission_list):
     for scores in submission_list:
         total += scores.quizScore
 
-    return format(total / len(submission_list), ".1f")
+    return round(total / len(submission_list), 1)
 
 
 def get_average_score_by_module(submission_list):
