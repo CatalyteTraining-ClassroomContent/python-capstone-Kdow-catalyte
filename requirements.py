@@ -67,14 +67,11 @@ def find_unsubmitted(submissionDate, nameList, submissionList):
          not completed any quiz on that date
 
     """
-    unsubmitted_list = []
+    unsubmitted_list = nameList
 
     for name in submissionList:
         if name.studentName in nameList:
-            if name.submissionDate != submissionDate:
-                if name.studentName not in unsubmitted_list:
-                    unsubmitted_list.append(name.studentName)
-            else:
+            if name.submissionDate == submissionDate:
                 if name.studentName in unsubmitted_list:
                     unsubmitted_list.remove(name.studentName)
 
